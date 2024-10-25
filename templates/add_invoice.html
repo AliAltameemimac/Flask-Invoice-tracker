@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Add Invoice</h2>
+<form method="POST">
+    <label for="ref_no">Reference Number:</label>
+    <input type="text" id="ref_no" name="ref_no" value="{{ ref_no }}" readonly>
+
+    <label for="subcontractor">Subcontractor:</label>
+    <select id="subcontractor" name="subcontractor" required>
+        {% for subcontractor in subcontractors %}
+        <option value="{{ subcontractor }}">{{ subcontractor }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required></textarea>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" value="{{ today_date }}" required>
+
+    <label for="amount_due">Amount Due:</label>
+    <input type="number" id="amount_due" name="amount_due" step="0.01" required onchange="calculateBalance()">
+
+    <label for="amount_received">Amount Received:</label>
+    <input type="number" id="amount_received" name="amount_received" step="0.01" required onchange="calculateBalance()">
+
+    <label for="balance_amount">Balance Amount:</label>
+    <input type="number" id="balance_amount" name="balance_amount" step="0.01" readonly>
+
+    <input type="submit" value="Add Invoice">
+</form>
+
+<script>
+function calculateBalance() {
+    var amountDue = parseFloat(document.getElementById('amount_due').value) || 0;
+    var amountReceived = parseFloat(document.getElementById('amount_received').value) || 0;
+    var balance = amountDue - amountReceived;
+    document.getElementById('balance_amount').value = balance.toFixed(2);
+}
+
+// Calculate balance initially
+document.addEventListener('DOMContentLoaded', calculateBalance);
+</script>
+{% endblock %}

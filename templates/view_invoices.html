@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Invoices</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Invoices</h1>
+
+    <!-- Buttons for exporting -->
+    <div>
+        <a href="{{ url_for('export_to_excel') }}" class="styled-button">Export to Excel</a>
+        <a href="{{ url_for('export_to_pdf') }}" class="styled-button">Print to PDF</a>
+        <a href="{{ url_for('index') }}" class="btn btn-primary"> Home</a>
+    </div>
+
+    <h2>Invoice List</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Ref No</th>
+                <th>Subcontractor</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Amount Due</th>
+                <th>Amount Received</th>
+                <th>Balance Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invoice in invoices %}
+            <tr>
+                <td>{{ invoice.ref_no }}</td>
+                <td>{{ invoice.subcontractor }}</td>
+                <td>{{ invoice.description }}</td>
+                <td>{{ invoice.date }}</td>
+                <td>{{ invoice.amount_due }}</td>
+                <td>{{ invoice.amount_received }}</td>
+                <td>{{ invoice.balance_amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Invoice Summary by Subcontractor</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Subcontractor</th>
+                <th>Total Amount Due</th>
+                <th>Total Amount Received</th>
+                <th>Total Balance Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in summary %}
+            <tr>
+                <td>{{ item.subcontractor }}</td>
+                <td>{{ item.total_amount_due }}</td>
+                <td>{{ item.total_amount_received }}</td>
+                <td>{{ item.total_balance_amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
